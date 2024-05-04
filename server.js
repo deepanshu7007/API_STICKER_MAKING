@@ -6,9 +6,9 @@ let http = require("http");
 
 const app = express();
 
-//var corsOptions = {
-//origin: '*',
-//};
+var corsOptions = {
+origin: '*',
+};
 
 //app.use(cors(corsOptions));
 app.use(cors());

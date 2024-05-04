@@ -105,12 +105,12 @@ module.exports = {
         data["email"] = data.email.toLowerCase();
       }
 
-      const createdUSer = await Users.create(data);
+      const createdUser = await Users.create(data);
       let emailPayload = {
-        email: createdUSer.email,
-        fullName: createdUSer.fullName,
-        id: createdUSer.id,
-        role: createdUSer.role,
+        email: createdUser.email,
+        fullName: createdUser.fullName,
+        id: createdUser.id,
+        role: createdUser.role,
       };
 
       await Emails.userVerifyLink(emailPayload);
@@ -118,7 +118,7 @@ module.exports = {
       return res.status(200).json({
         success: true,
         message: "User register successfully.",
-        data: createdUSer,
+        data: createdUser,
       });
     } catch (err) {
       return res.status(400).json({

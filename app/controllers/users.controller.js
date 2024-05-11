@@ -73,7 +73,7 @@ module.exports = {
         data.password,
         bcrypt.genSaltSync(10)
       );
-      data.isVerified = "N";
+      data.isVerified = "Y";
       data.createdAt = new Date();
       data.updatedAt = new Date();
       data.isDeleted = false;

@@ -9,7 +9,7 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 
 module.exports = {
-  sendEmail: (to, subject, message, next) => {
+  sendEmail: async(to, subject, message, next) => {
     
     transport = nodemailer.createTransport(
       smtpTransport({
@@ -27,9 +27,9 @@ module.exports = {
         },
       })
     );
-    transport.sendMail(
+    await transport.sendMail(
       {
-        from: 'Employee_Management  <' + process.env.SMTP_USER + '>',
+        from: 'Psyclick Label Printing  <' + process.env.SMTP_USER + '>',
         to: to,
         subject: subject,
         html: message,

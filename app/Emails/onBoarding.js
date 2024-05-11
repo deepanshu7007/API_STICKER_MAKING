@@ -552,17 +552,12 @@ const userVerifyLink = async (options) => {
                           <tr>
                               <td>`
 
-                              if(options.role == 'comapnay'){
-                                message += `    <a href="${STAGING_FRONTEND_URL}/organization?id=${options.id}&role=${options.role}"
+                              
+                                message += `<a href="${STAGING_FRONTEND_URL}/organization?id=${options.id}&role=${options.role}"
                                 style="background: #3F559E
                         ; display:block;color:#fff;padding:12px 10px; width: 220px; margin: 0 auto 0; box-shadow: none; border: 0; font-size: 15px; text-decoration: none; font-weight: 400; text-align: center;">Verify your email address</a>
                        `
-                              }else{
-                                message += `    <a href="${STAGING_FRONTEND_URL}?id=${options.id}&role=${options.role}"
-                                style="background: #3F559E
-                        ; display:block;color:#fff;padding:12px 10px; width: 220px; margin: 0 auto 0; box-shadow: none; border: 0; font-size: 15px; text-decoration: none; font-weight: 400; text-align: center;">Verify your email address</a>
-                       `
-                              }
+                              
                              message +=`</td>
                           </tr>
   
@@ -585,7 +580,7 @@ const userVerifyLink = async (options) => {
   </body>
   
   </html>`;
-  SmtpController.sendEmail(email, "Email Verification", message);
+  await SmtpController.sendEmail(email, "Email Verification", message);
 };
 
 const updatePasswordEmail = (options) => {

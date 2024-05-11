@@ -25,7 +25,7 @@ module.exports = (mongoose) => {
       department: { type: Schema.Types.ObjectId, ref: "department" },
       isVerified: {
         type: String,
-        default: "N",
+        default: "Y",
       },
       stripe_price_id: String,
       role: {

@@ -10,6 +10,7 @@ router.use("/user/auth",require('../middelware/auth'))
 router.use("/card", require("./cards.routes"));
 router.use("/faq", require("./faq.routes"));
 router.use("/features", require("./features.routes"));
+router.use("/item", require("./items.routes"));
 router.use("/plan", require("./plan.routes"));
 router.use("/subscriptions", require("./subscriptions.routes"));
 router.use("/upload", require("./upload.routes"));

@@ -36,7 +36,13 @@ module.exports = {
     NO_USER_EXIST : "No user exist with these credentials"
     
   },
-
+Item:{
+  PAYLOAD_MISSING:"Payload missing.",
+  ALREADY_EXIST:"Item already exits",
+  CREATED:"Item created successfully",
+  UPDATED:"Item updated successfully",
+  DELETED:"Item deleted successfully",
+},
   messages: {
     CARD_ADDED: "Card added successfully.",
     CARD_EXIST: "Card already exist.",

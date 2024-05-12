@@ -15,6 +15,7 @@ db.subscriptions = require('./subscription.model.js')(mongoose);
 db.cards = require('./cards.model.js')(mongoose);
 db.usertransactions = require('./usertransactions.model.js')(mongoose)
 db.faqs = require("./faq.model.js")(mongoose)
+db.items = require("./items.model.js")(mongoose);
 // db.userslogins = require('./userslogins.model.js')(mongoose)
 
 module.exports = db;

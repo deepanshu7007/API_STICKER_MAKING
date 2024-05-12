@@ -21,10 +21,9 @@ module.exports = {
           error: { code: 400, message: constants.Item.PAYLOAD_MISSING },
         });
       }
-      data.name = data.name;
       var query = {};
       query.isDeleted = false;
-      query.name = data.name;
+      query.itemName = data.itemName;
       const existed = await Items.findOne(query);
       if (existed) {    
         return res.status(400).json({

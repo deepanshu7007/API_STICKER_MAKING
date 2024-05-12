@@ -1,6 +1,6 @@
-const { number } = require('joi');
+// const { number } = require('joi');
 
-var Mongoose = require('mongoose'),
+var Mongoose = require('mongoose');
   Schema = Mongoose.Schema;
 module.exports = (mongoose) => {
   var schema = mongoose.Schema(

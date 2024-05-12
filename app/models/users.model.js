@@ -99,6 +99,6 @@ module.exports = (mongoose) => {
     return object;
   });
 
-  const Users = mongoose.model("users", schema);
+  const Users =mongoose.models.users || mongoose.model("users", schema);
   return Users;
 };

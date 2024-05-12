@@ -98,7 +98,7 @@ module.exports = (mongoose) => {
     object.id = _id;
     return object;
   });
-
+ 
   const Users = mongoose.model("users", schema);
   return Users;
 };

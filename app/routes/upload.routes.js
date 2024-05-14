@@ -41,7 +41,7 @@ var uploadJson = multer({ storage: fileStorage });
 // module.exports = (app) => {
   // var router = require('express').Router();
 
-  router.post('/upload/image',upload.single('file'),function (req, res, next) {
+  router.post('/image',upload.single('file'),function (req, res, next) {
     try{
     if (!req.file) {
       return res.status(400).json({
@@ -64,7 +64,7 @@ var uploadJson = multer({ storage: fileStorage });
   });
 
   router.post(
-    '/upload/document',
+    '/document',
     uploadJson.single('file'),
     function (req, res, next) {
       if (!req.file) {

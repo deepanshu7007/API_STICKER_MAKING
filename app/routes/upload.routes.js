@@ -49,11 +49,19 @@ var uploadJson = multer({ storage: fileStorage });
         error: { code: 400, message: 'Please upload a valid file.' },
       });
     }
-    return res.send('Image uploaded successfully!',req.file.filename);
-    return res.json({
-      filePath: 'img/' + req.file.filename,
+    return res.status(200).json({
+          success: true,
+          message: "Image upload successfully",
+          data:{
+            filePath: 'img/' + req.file.filename,
       fileName: req.file.filename,
-    });
+          }
+        });
+    // return res.send('Image uploaded successfully!',req.file.filename);
+    // return res.json({
+    //   filePath: 'img/' + req.file.filename,
+    //   fileName: req.file.filename,
+    // });
     }catch(error){
       
         return res.status(400).json({

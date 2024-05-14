@@ -5,10 +5,10 @@ const router = express.Router();
 var multer = require('multer');
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './public/');
+    cb(null, './public/img');
   },
   filename: (req, file, cb) => {
-   // console.log(file);
+   console.log(file);
     var filetype = '';
     if (file.mimetype === 'image/gif') {
       filetype = 'gif';
@@ -49,6 +49,7 @@ var uploadJson = multer({ storage: fileStorage });
         error: { code: 400, message: 'Please upload a valid file.' },
       });
     }
+    return res.send('Image uploaded successfully!',req.file.filename);
     return res.json({
       filePath: 'img/' + req.file.filename,
       fileName: req.file.filename,

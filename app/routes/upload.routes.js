@@ -80,6 +80,7 @@ try{
       data: {
         cloudinaryUrl: result.secure_url,
         fileName: result.original_filename,
+        file:file.path
       },
     });
   });

@@ -1,10 +1,19 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-/**Image upload using multer */
 const cloudinary = require('cloudinary').v2; // Import Cloudinary SDK
-var multer = require('multer');
-var storage = multer.diskStorage({
+
+// Configure Cloudinary with your credentials
+cloudinary.config({ 
+  cloud_name: 'dimpjogcr', 
+  api_key: '577184584142339', 
+  api_secret: 'yd-2vMTFJsrdIpe2nqeIg6vCRqI' 
+});
+
+// Image upload using multer with promises
+const multer = require('multer');
+
+const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './public/img');
   },
@@ -23,82 +32,67 @@ var storage = multer.diskStorage({
   },
 });
 
-var upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
-cloudinary.config({ 
-  cloud_name: 'dimpjogcr', 
-  api_key: '577184584142339', 
-  api_secret: 'yd-2vMTFJsrdIpe2nqeIg6vCRqI' 
-});
+// Function to upload file with Multer and return a Promise
+const uploadFile = (req, res) => {
+  return new Promise((resolve, reject) => {
+    upload.single('file')(req, res, (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(req.file);
+      }
+    });
+  });
+};
 
-var fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './public/document');
-  },
-  filename: (req, file, cb) => {
-    console.log(file);
-    var ext = file.mimetype.split("/")[1]
+// Handle image upload endpoint
+router.post('/image', async (req, res) => {
+  try {
+    const file = await uploadFile(req, res);
 
-    cb(null, 'document-' + Date.now() + `.${ext}` );
-  },
-});
-
-var uploadJson = multer({ storage: fileStorage });
-
-
-// module.exports = (app) => {
-  // var router = require('express').Router();
-
- router.post('/image',async function (req, res) {
-    try{
-    if (!req.file) {
+    if (!file) {
       return res.status(400).json({
         success: false,
         error: { code: 400, message: 'Please upload a valid file.' },
       });
     }
 
-    const result = await cloudinary.uploader.upload(req.file.path);
-    // console.log(result,"=======================");
-    return res.status(200).json({
-          success: true,
-          message: "Image upload successfully",
-          data:{
-            url: result.url,
-      fileName: result.original_filename,
-          }
-        });
-    // return res.send('Image uploaded successfully!',req.file.filename);
-    // return res.json({
-    //   filePath: 'img/' + req.file.filename,
-    //   fileName: req.file.filename,
-    // });
-    }catch(error){
-      
-        return res.status(400).json({
-          success: false,
-          error: { code: 400, message: error },
-        });
-      
-    }  
-  });
+    console.log("================ >",file);
+    const result = await cloudinary.uploader.upload(file.path);
 
-  router.post(
-    '/document',
-    uploadJson.single('file'),
-    function (req, res, next) {
-      if (!req.file) {
-        return res.status(400).json({
-          success: false,
-          error: { code: 400, message: 'Please upload a valid document file.' },
-        });
-      }
-      return res.json({
-        filePath: 'document/' + req.file.filename,
-        fileName: req.file.filename,
-      });
-    }
-  );
+    return res.status(200).json({
+      success: true,
+      message: 'Image uploaded successfully to Cloudinary',
+      data: {
+        cloudinaryUrl: result.secure_url,
+        fileName: result.original_filename,
+      },
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      error: { code: 400, message: error.message },
+    });
+  }
+});
+  // router.post(
+  //   '/document',
+  //   uploadJson.single('file'),
+  //   function (req, res, next) {
+  //     if (!req.file) {
+  //       return res.status(400).json({
+  //         success: false,
+  //         error: { code: 400, message: 'Please upload a valid document file.' },
+  //       });
+  //     }
+  //     return res.json({
+  //       filePath: 'document/' + req.file.filename,
+  //       fileName: req.file.filename,
+  //     });
+  //   }
+  // );
 
   // app.use('/api', router);
 // };

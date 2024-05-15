@@ -3,6 +3,7 @@ const path = require('path');
 const router = express.Router();
 const cloudinary = require('cloudinary').v2; // Import Cloudinary SDK
 const fs = require('fs');
+const multiparty = require('multiparty');
 // Configure Cloudinary with your credentials
 cloudinary.config({ 
   cloud_name: 'dimpjogcr', 
@@ -51,8 +52,17 @@ const uploadFile = (req, res) => {
 
 // Handle image upload endpoint
 router.post('/image', async (req, res) => {
-  try {
-    const file = await uploadFile(req, res);
+  const form = new multiparty.Form();
+try{
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 400, message: err.message },
+      });
+    }
+
+    const file = files.file[0]; // Assuming 'file' is the field name for the uploaded file
 
     if (!file) {
       return res.status(400).json({
@@ -61,7 +71,7 @@ router.post('/image', async (req, res) => {
       });
     }
 
-    console.log("================ >",file);
+    // Upload image to Cloudinary
     const result = await cloudinary.uploader.upload(file.path);
 
     return res.status(200).json({
@@ -72,7 +82,9 @@ router.post('/image', async (req, res) => {
         fileName: result.original_filename,
       },
     });
+  });
   } catch (error) {
+    console.log(error);
     return res.status(400).json({
       success: false,
       error: { code: 400, message: error.message },

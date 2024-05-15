@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const cloudinary = require('cloudinary').v2; // Import Cloudinary SDK
-
+const fs = require('fs');
 // Configure Cloudinary with your credentials
 cloudinary.config({ 
   cloud_name: 'dimpjogcr', 

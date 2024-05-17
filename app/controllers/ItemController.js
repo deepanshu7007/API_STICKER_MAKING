@@ -79,21 +79,21 @@ module.exports = {
           error: { code: 400, message: constants.Item.PAYLOAD_MISSING },
         });
       }
-      var query = {};
-      query.isDeleted = false;
-      query.itemName = req.body.itemName;
-      query._id = { $ne: new mongoose.Types.ObjectId(req.body.id) };
-    //   console.log(query,"==============");
-      const existed = await Items.findOne(query);
-      if (existed) {
-        return res.status(400).json({
-          success: false,
-          error: {
-            code: 400,
-            message: constants.Item.ALREADY_EXIST,
-          },
-        });
-      }
+    //   var query = {};
+    //   query.isDeleted = false;
+    //   query.itemName = req.body.itemName;
+    //   query._id = { $ne: new mongoose.Types.ObjectId(req.body.id) };
+    // //   console.log(query,"==============");
+    //   const existed = await Items.findOne(query);
+    //   if (existed) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       error: {
+    //         code: 400,
+    //         message: constants.Item.ALREADY_EXIST,
+    //       },
+    //     });
+    //   }
 
       const updatedItem = await Items.updateOne(
         { _id: req.body.id },

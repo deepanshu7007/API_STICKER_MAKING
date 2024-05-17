@@ -76,7 +76,7 @@ try{
 
     return res.status(200).json({
       success: true,
-      message: 'Image uploaded successfully to Cloudinary',
+      message: 'Image uploaded successfully',
       data: {
         cloudinaryUrl: result.secure_url,
         fileName: result.original_filename,
@@ -92,24 +92,5 @@ try{
     });
   }
 });
-  // router.post(
-  //   '/document',
-  //   uploadJson.single('file'),
-  //   function (req, res, next) {
-  //     if (!req.file) {
-  //       return res.status(400).json({
-  //         success: false,
-  //         error: { code: 400, message: 'Please upload a valid document file.' },
-  //       });
-  //     }
-  //     return res.json({
-  //       filePath: 'document/' + req.file.filename,
-  //       fileName: req.file.filename,
-  //     });
-  //   }
-  // );
-
-  // app.use('/api', router);
-// };
 module.exports = router
 

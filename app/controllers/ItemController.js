@@ -172,6 +172,7 @@ module.exports = {
             size_type: "$size_type",
             status: '$status',
             createdAt: '$createdAt',
+            updatedAt:"$updatedAt",
             description: '$description',
             isDeleted: '$isDeleted',
           },

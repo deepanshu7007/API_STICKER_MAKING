@@ -15,7 +15,7 @@ module.exports = {
     try {
       const data = req.body;
 
-      if (!req.body.itemName||!req.body.barcode||!req.body.price||!req.body.size||!req.body.size_type) {
+      if (!req.body.itemName || !req.body.barcode || !req.body.price || !req.body.size || !req.body.size_type) {
         return res.status(400).json({
           success: false,
           error: { code: 400, message: constants.Item.PAYLOAD_MISSING },
@@ -25,7 +25,7 @@ module.exports = {
       query.isDeleted = false;
       query.itemName = data.itemName;
       const existed = await Items.findOne(query);
-      if (existed) {    
+      if (existed) {
         return res.status(400).json({
           success: false,
           error: {
@@ -42,7 +42,7 @@ module.exports = {
       return res.status(200).json({
         success: true,
         message: constants.Item.CREATED,
-        data:itemCreated
+        data: itemCreated
       });
     } catch (err) {
       return res.status(400).json({
@@ -73,40 +73,40 @@ module.exports = {
 
   updateItem: async (req, res) => {
     try {
-      if (!req.body.id ||!req.body.itemName||!req.body.barcode||!req.body.price||!req.body.size||!req.body.size_type) {
+      if (!req.body.id || !req.body.itemName || !req.body.barcode || !req.body.price || !req.body.size || !req.body.size_type) {
         return res.status(400).json({
           success: false,
           error: { code: 400, message: constants.Item.PAYLOAD_MISSING },
         });
       }
-    //   var query = {};
-    //   query.isDeleted = false;
-    //   query.itemName = req.body.itemName;
-    //   query._id = { $ne: new mongoose.Types.ObjectId(req.body.id) };
-    // //   console.log(query,"==============");
-    //   const existed = await Items.findOne(query);
-    //   if (existed) {
-    //     return res.status(400).json({
-    //       success: false,
-    //       error: {
-    //         code: 400,
-    //         message: constants.Item.ALREADY_EXIST,
-    //       },
-    //     });
-    //   }
+      //   var query = {};
+      //   query.isDeleted = false;
+      //   query.itemName = req.body.itemName;
+      //   query._id = { $ne: new mongoose.Types.ObjectId(req.body.id) };
+      // //   console.log(query,"==============");
+      //   const existed = await Items.findOne(query);
+      //   if (existed) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       error: {
+      //         code: 400,
+      //         message: constants.Item.ALREADY_EXIST,
+      //       },
+      //     });
+      //   }
 
       const updatedItem = await Items.findOneAndUpdate(
         { _id: req.body.id },
-        req.body,{
-  new: true
-}
+        req.body, {
+        new: true
+      }
       );
 
       return res.status(200).json({
         success: true,
         message: constants.Item.UPDATED,
-        data:updatedItem
-    });
+        data: updatedItem
+      });
     } catch (err) {
       return res.status(400).json({
         success: false,
@@ -160,16 +160,16 @@ module.exports = {
       }
 
       const pipeline = [
-        
+
         {
           $project: {
             id: '$_id',
-            itemName:"$itemName",
-            barcode:"$barcode",
-            model:"$model",
-            price:"$price",
-            size:"$size",
-            size_type:"$size_type",
+            itemName: "$itemName",
+            barcode: "$barcode",
+            model: "$model",
+            price: "$price",
+            size: "$size",
+            size_type: "$size_type",
             status: '$status',
             createdAt: '$createdAt',
             description: '$description',
@@ -201,7 +201,7 @@ module.exports = {
 
       const result = await Items.aggregate([...pipeline]);
 
-      if(exports_to_xls){
+      if (exports_to_xls) {
         var ItemsData = [];
         var counter = 1;
         for await (let obj of result) {
@@ -215,28 +215,28 @@ module.exports = {
             description: obj.description || '-',
             createdAt: new Date(obj.createdAt).toDateString(),
           });
-  
+
           counter++;
         }
         var excelFileName = `ItemsDetails`;
         let workbook = new excel.Workbook();
         let worksheet = workbook.addWorksheet(excelFileName);
-  
+
         worksheet.columns = [
           { header: 'Serial No.', key: 'counter', width: 10 },
           { header: 'Name', key: 'name', width: 15 },
-          
+
           { header: 'Tooltip', key: 'description', width: 10 },
           { header: 'Status', key: 'status', width: 10 },
           { header: 'Creation Date', key: 'createdAt', width: 17 },
         ];
-  
+
         // Add Array Rows
         worksheet.addRows(ItemsData);
-  
+
         // Add autofilter on each column
         worksheet.autoFilter = 'A1:D1';
-  
+
         res.setHeader(
           'Content-Type',
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -245,12 +245,12 @@ module.exports = {
           'Content-Disposition',
           'attachment; filename=' + excelFileName + '.xlsx'
         );
-  
+
         return workbook.xlsx.write(res).then(function () {
           res.status(200).end();
         });
       }
-      
+
 
       return res.status(200).json({
         success: true,

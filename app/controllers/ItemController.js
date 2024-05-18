@@ -95,9 +95,11 @@ module.exports = {
     //     });
     //   }
 
-      const updatedItem = await Items.updateOne(
+      const updatedItem = await Items.findOneAndUpdate(
         { _id: req.body.id },
-        req.body
+        req.body,{
+  new: true
+}
       );
 
       return res.status(200).json({

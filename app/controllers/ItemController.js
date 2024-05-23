@@ -55,15 +55,20 @@ module.exports = {
   /**Getting features detail data using id */
   itemDetail: async (req, res) => {
     try {
-      const id = Number(req.query.id);
+      const id = Number(req.query.itemCode);
 
       const item = await Items.findOne({itemCode:id});
+
+      if(!item){
+        throw constants.Item.NOT_FOUND;
+      }
 
       return res.status(200).json({
         success: true,
         data: item,
       });
     } catch (err) {
+      console.log(err)
       return res.status(400).json({
         success: false,
         error: { code: 400, message: '' + err },
@@ -96,7 +101,7 @@ module.exports = {
       //   }
 
       const updatedItem = await Items.findOneAndUpdate(
-        { _id: req.body.id },
+        { itemCode: Number(req.body.id) },
         req.body, {
         new: true
       }
@@ -293,7 +298,7 @@ module.exports = {
     try {
       const id = req.query.id;
       const itemDeleted = await Items.updateOne(
-        { _id: id },
+        { itemCode: Number(id) },
         { isDeleted: true }
       );
 

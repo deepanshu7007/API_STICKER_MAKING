@@ -42,6 +42,7 @@ Item:{
   CREATED:"Item created successfully",
   UPDATED:"Item updated successfully",
   DELETED:"Item deleted successfully",
+  NOT_FOUND:"Item not exists"
 },
   messages: {
     CARD_ADDED: "Card added successfully.",

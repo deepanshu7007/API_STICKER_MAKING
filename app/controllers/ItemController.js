@@ -55,9 +55,9 @@ module.exports = {
   /**Getting features detail data using id */
   itemDetail: async (req, res) => {
     try {
-      const id = req.query.id;
+      const id = Number(req.query.id);
 
-      const item = await Items.findById(id);
+      const item = await Items.find({itemCode:id});
 
       return res.status(200).json({
         success: true,

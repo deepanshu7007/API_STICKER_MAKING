@@ -57,7 +57,7 @@ module.exports = {
     try {
       const id = Number(req.query.id);
 
-      const item = await Items.find({itemCode:id});
+      const item = await Items.findOne({itemCode:id});
 
       return res.status(200).json({
         success: true,

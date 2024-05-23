@@ -168,6 +168,7 @@ module.exports = {
             barcode: "$barcode",
             model: "$model",
             price: "$price",
+            itemCode:"$itemCode",
             size: "$size",
             size_type: "$size_type",
             status: '$status',

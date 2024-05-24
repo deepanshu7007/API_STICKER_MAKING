@@ -78,30 +78,22 @@ module.exports = {
 
   updateItem: async (req, res) => {
     try {
-      if (!req.body.id || !req.body.itemName || !req.body.barcode || !req.body.price || !req.body.size || !req.body.size_type) {
+      
+      if (!req.body.itemCode || !req.body.itemName || !req.body.barcode || !req.body.price || !req.body.size || !req.body.size_type) {
         return res.status(400).json({
           success: false,
           error: { code: 400, message: constants.Item.PAYLOAD_MISSING },
         });
       }
-      //   var query = {};
-      //   query.isDeleted = false;
-      //   query.itemName = req.body.itemName;
-      //   query._id = { $ne: new mongoose.Types.ObjectId(req.body.id) };
-      // //   console.log(query,"==============");
-      //   const existed = await Items.findOne(query);
-      //   if (existed) {
-      //     return res.status(400).json({
-      //       success: false,
-      //       error: {
-      //         code: 400,
-      //         message: constants.Item.ALREADY_EXIST,
-      //       },
-      //     });
-      //   }
+     
+      const item = await Items.findOne({itemCode:Number(req.body.itemCode)});
+
+      if(!item){
+        throw constants.Item.NOT_FOUND;
+      }
 
       const updatedItem = await Items.findOneAndUpdate(
-        { itemCode: Number(req.body.id) },
+        { itemCode: Number(req.body.itemCode) },
         req.body, {
         new: true
       }
